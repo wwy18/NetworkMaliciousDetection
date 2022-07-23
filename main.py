@@ -2,7 +2,7 @@ from random import random
 import torch
 from Node import Node, Global_Node
 from Args import args_parser
-from DATA_2CLASS import Data
+from DATA_v9 import Data
 from utils import LR_scheduler, Recorder, Catfish, Summary
 from Trainer import train_avg,train_teacher2local_semi,train_normal,train_teacher2local,train_local2teacher
 
