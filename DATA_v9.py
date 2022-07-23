@@ -26,10 +26,10 @@ def Dataset_global():
 
 
     x_test_under_sample = pd.read_csv(
-        r"D:\\IOT-DS2-5\\val\\IoT-DS2-x-val-1.csv", header=None,
+        r"IoT-DS2-x-val-1.csv", header=None,
         low_memory=False)
     y_test_under_sample = pd.read_csv(
-        r"D:\\IOT-DS2-5\\val\\IoT-DS2-y-val-1.csv", header=None,
+        r"IoT-DS2-y-val-1.csv", header=None,
         low_memory=False)
     x_test_under_sample = x_test_under_sample.drop(0)
     y_test_under_sample = y_test_under_sample.drop(0)
@@ -40,32 +40,27 @@ def Dataset_global():
     return testset
 
 def Dataset(n):
-    # device = ['Danmini_Doorbell']
-    # device = ['Danmini_Doorbell', 'Ecobee_Thermostat', 'SimpleHome_XCS7_1003_WHT_Security_Camera',
-    #    'Philips_B120N10_Baby_Monitor',  'Provision_PT_838_Security_Camera']
     trainset, testset = [], []
     new_list = []
     # for i in range(n):
     #     new_list.append(device[i])
     for i in range(n):
         x_train_under_sample = pd.read_csv(
-            r"D:\\IOT-DS2-5\\train2\\IoT-DS2-x-train-{}.csv".format(i), header=None,
+            r"IoT-DS2-x-train-{}.csv".format(i), header=None,
             low_memory=False)
         y_train_under_sample = pd.read_csv(
-            r"D:\\IOT-DS2-5\\train2\\IoT-DS2-y-train-{}.csv".format(i), header=None,
+            r"IoT-DS2-y-train-{}.csv".format(i), header=None,
             low_memory=False)
         x_test_under_sample = pd.read_csv(
-            r"D:\\IOT-DS2-5\\val\\IoT-DS2-x-val-{}.csv".format(i), header=None,
+            r"IoT-DS2-x-val-{}.csv".format(i), header=None,
             low_memory=False)
         y_test_under_sample = pd.read_csv(
-            r"D:\\IOT-DS2-5\\val\\IoT-DS2-y-val-{}.csv".format(i), header=None,
+            r"IoT-DS2-y-val-{}.csv".format(i), header=None,
             low_memory=False)
         x_train_under_sample = x_train_under_sample.drop(0)
         y_train_under_sample = y_train_under_sample.drop(0)
         x_test_under_sample = x_test_under_sample.drop(0)
         y_test_under_sample = y_test_under_sample.drop(0)
-        # x_test_under_sample = x_test_under_sample.drop(0,axis=1)
-        # y_test_under_sample = y_test_under_sample.drop(0,axis=1)
         trainset1 = PCAPset(x_train_under_sample, y_train_under_sample)
         testset1 = PCAPset(x_test_under_sample, y_test_under_sample)
         trainset.append(trainset1)
