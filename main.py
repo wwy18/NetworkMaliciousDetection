@@ -1,11 +1,7 @@
 from random import random
-
 import torch
-
-
 from Node import Node, Global_Node
 from Args import args_parser
-# from DATA_v9 import Data
 from DATA_2CLASS import Data
 from utils import LR_scheduler, Recorder, Catfish, Summary
 from Trainer import train_avg,train_teacher2local_semi,train_normal,train_teacher2local,train_local2teacher
@@ -17,27 +13,9 @@ print('Running on', args.device)
 Data = Data(args)
 
 # Train = Trainer()
-
-# def setup_seed(seed):
-#      torch.manual_seed(seed)
-#      torch.cpu.manual_seed_all(seed)
-#      np.random.seed(seed)
-#      random.seed(seed)
-#      torch.backends.cpu.deterministic = True
-# # 设置随机数种子
-# setup_seed(3407)
-# init nodes
-# Global_node = Global_Node(Data.test_loader_global, args)
 Global_node = Global_Node(Data.test_loader_global, args)
 Node_List = [Node(k, Data.train_loader[k], Data.test_loader[k], args) for k in range(args.node_num)]
-
 Catfish(Node_List, args)
-
-Array1 = [[] for i in range(args.node_num)]
-Array2 = [[] for i in range(args.node_num)]
-Array3 = [[] for i in range(args.node_num)]
-Array4 = [[] for i in range(args.node_num)]
-Array5 = [[] for i in range(args.node_num)]
 Array11,Array22,Array33,Array44= [],[],[],[]
 # init variables
 recorder = Recorder(args)
@@ -110,26 +88,4 @@ for rounds in range(args.R):
         recorder.printer(Global_node)
 recorder.finish()
 Summary(args)
-for k in range(len(Array1)):
-    print("node{}-acc:".format(k))
-    print(Array1[k])
-for k in range(len(Array2)):
-    print("node{}-pre:".format(k))
-    print(Array2[k])
-for k in range(len(Array3)):
-    print("node{}-recall:".format(k))
-    print(Array3[k])
-for k in range(len(Array4)):
-    print("node{}-f1:".format(k))
-    print(Array4[k])
-
-print("-------------node0--------------")
-print("acc:")
-print(Array11)
-print("pre:")
-print(Array22)
-print("recall:")
-print(Array33)
-print("f1:")
-print(Array44)
 
