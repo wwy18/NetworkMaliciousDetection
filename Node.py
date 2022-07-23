@@ -40,9 +40,6 @@ def init_model(model_type):
         num_ftrs = resnet18.fc.in_features
         resnet18.fc = nn.Linear(num_ftrs, 10)
         model = resnet18
-
-
-
     return model
 
 
@@ -87,14 +84,6 @@ class Global_Node(object):
         self.test_data = test_data
         self.Dict = self.model.state_dict()
 
-    # def merge(self, Node_List,weight_accumulator):
-    #     weights_zero(self.model)
-    #     for name, data in self.model.state_dict().items():
-    #         update_per_layer = weight_accumulator[name] * 0.2
-    #         if data.type() != update_per_layer.type():
-    #             data.add(update_per_layer.to(torch.int64))
-    #         else:
-    #             data.add_(update_per_layer)
 
     def server_aggregate(self,Global_node, Node_List):
         weights_zero(self.model)
@@ -109,43 +98,10 @@ class Global_Node(object):
         n = len(Node_List)
         # n = num_selected
         global_dict = Global_node.model.state_dict()
+
         for name, data in Global_node.model.state_dict().items():
             for i in range(len(Node_List)):
-                if i==2:
-                    next_global_dict[name] += Node_List[i].meme.state_dict()[name]
-            next_global_dict[name] = next_global_dict[name] / 1
+                next_global_dict[name] += Node_List[i].meme.state_dict()[name]
+            next_global_dict[name] = next_global_dict[name] / 5
         Global_node.model.load_state_dict(next_global_dict)
-        # for name, data in Global_node.model.state_dict().items():
-        #     for i in range(len(Node_List)):
-        #         next_global_dict[name] += Node_List[i].meme.state_dict()[name]
-        #     next_global_dict[name] = next_global_dict[name] / 5
-        # Global_node.model.load_state_dict(next_global_dict)
 
-
-
-
-    # def merge(self, Global_node,Node_List):
-    #     weights_zero(self.model)
-    #     client_lens = []
-    #     for i in range(len(Node_List)):
-    #         datalength = len(Node_List[i].train_data)
-    #         client_lens.append(datalength)
-    #     total = sum(client_lens)
-    #     n = len(Node_List)
-    #     Node_State_List = [copy.deepcopy(Node_List[i].meme.state_dict()) for i in range(len(Node_List))]
-    #     global_dict = Global_node.Dict
-    #     for key in Global_node.Dict.keys():
-    #         for i in range(len(Node_List)):
-    #             global_dict[key]+= Node_State_List[i][key]
-    #         #             self.Dict[key] /= len(Node_List)
-    #         global_dict[key] = global_dict[key] / (len(Node_List))
-    #     Global_node.model.load_state_dict(global_dict)
-    #
-    # def merge(self, Node_List):
-    #     weights_zero(self.model)
-    #     Node_State_List = [copy.deepcopy(Node_List[i].meme.state_dict()) for i in range(len(Node_List))]
-    #     for key in self.Dict.keys():
-    #         for i in range(len(Node_List)):
-    #             self.Dict[key] += Node_State_List[i][key]
-    #         #             self.Dict[key] /= len(Node_List)
-    #         self.Dict[key] = self.Dict[key] / (len(Node_List))
